@@ -37,7 +37,7 @@ function keyUpHandler(e) {
         sPressed = false;
     }
 }
-unction drawBow() {
+function drawBow() {
     ctx.drawImage(image,bowX,bowY);
 }
 function drawArrow(){
@@ -62,6 +62,25 @@ function drawArrow(){
                 ctx.stroke();
                 ctx.fillStyle = "#cc0000";
                 ctx.fill();
+}
+function drawBullsEye()
+{
+ ctx.beginPath();
+ ctx.moveTo(bullX,bullY);
+ ctx.arc(bullX,bullY,8,0,2*Math.PI,true);
+ ctx.fillStyle="red";
+ ctx.fill();
+ ctx.beginPath();
+ ctx.moveTo(bullX,bullY);
+ ctx.arc(bullX,bullY,20,0,2*Math.PI,true);
+ ctx.fillStyle="blue";
+ ctx.fill();
+ ctx.beginPath();
+ ctx.moveTo(bullX,bullY);
+ ctx.arc(bullX, bullY, 40, 0, 2*Math.PI, true);
+ ctx.fillStyle="green";
+ ctx.fill();
+ 
 }
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
