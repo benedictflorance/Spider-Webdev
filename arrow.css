@@ -1,0 +1,15 @@
+body{margin:0px;
+	padding:0px;}
+canvas { background: #eee;
+margin:0px; }
+#lives,#score,#status{
+	clear: both;
+	margin:0px;
+	width:740px;
+	padding:5px;
+	text-align: center;
+	background:#eee;
+	font-weight:bold;
+	color: #f24646;
+    font-family: 'Open Sans', sans-serif;
+}
