@@ -7,13 +7,14 @@ var fromx=45, tox=120;
 var fromy,toy;
 var bullX=650;
 var bullY=45;
-var bullSpeed=3;
+var bullSpeed=2;
 fromy=toy=(canvas.height+4)/2;
 var wPressed = false;
 var sPressed = false;
 var space=false;
 var lives=10;
 var score=0;
+var flag=1;
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -82,12 +83,48 @@ function drawBullsEye()
  ctx.fill();
  
 }
+function collisionDetection()
+{
+    if(tox>bullX-20&&flag)
+    {
+        if(toy>bullY-20&&toy<bullY+20){
+        if(toy<bullY-10||toy>bullY+10)
+        {
+            score+=10;
+            document.getElementById("status").textContent="That was a 10! :)";
+        }
+        else if(toy<bullY-4||toy>bullY+4)
+        {
+            score+=30
+            document.getElementById("status").textContent="That was a 30! ;)";
+        }
+        else
+        {
+            score+=50;
+            document.getElementById("status").textContent="That was a 50! :O";
+        }
+    }
+    else
+        {document.getElementById("status").textContent="Try Hard";}
+    flag=0;
+    space=false;
+    setTimeout(function(){if(lives){
+                lives--;
+                fromx=45; 
+                tox=120;
+                fromy=toy=bowY+62;
+                drawArrow();
+                flag=1;
+            }},250);
+    }
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation ='destination-over';
     drawArrow();
     drawBow();
     drawBullsEye();
+    collisionDetection();
     document.getElementById("lives").textContent=lives+" arrow(s) in your quiver!";
 	document.getElementById("score").textContent="Score: "+score;
     if(wPressed&&bowY>2&&!space){
@@ -105,7 +142,7 @@ function draw() {
     	fromx+=8;
     	tox+=8;
     }
-    if(fromx>canvas.width&&lives)
+    if(fromx>canvas.width+5&&lives)
     {
    	lives--;
     fromx=45; 
@@ -117,11 +154,12 @@ function draw() {
     if(bullY<45||bullY>canvas.height-42)
     {bullSpeed=-1*bullSpeed;}
     bullY+=bullSpeed;
-    if(from)
     if(!lives)
     {
-    	alert("GAME OVER");
-    	document.location.reload();
+        setTimeout(function(){
+        alert("GAME OVER");
+        document.location.reload();
+        },1000);
     }
 requestAnimationFrame(draw);
     }
