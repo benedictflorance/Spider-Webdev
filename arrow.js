@@ -37,6 +37,32 @@ function keyUpHandler(e) {
         sPressed = false;
     }
 }
+unction drawBow() {
+    ctx.drawImage(image,bowX,bowY);
+}
+function drawArrow(){
+                var headlen = 10;
+                var angle = Math.atan2(toy-fromy,tox-fromx);
+                //arrow
+                ctx.beginPath();
+                ctx.moveTo(fromx, fromy);
+                ctx.lineTo(tox, toy);
+                ctx.strokeStyle = "#cc0000";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                //arrowhead
+                ctx.moveTo(tox, toy);
+                ctx.lineTo(tox-headlen*Math.cos(angle-Math.PI/7),toy-headlen*Math.sin(angle-Math.PI/7));
+                ctx.lineTo(tox-headlen*Math.cos(angle+Math.PI/7),toy-headlen*Math.sin(angle+Math.PI/7));
+                ctx.lineTo(tox, toy);
+                ctx.lineTo(tox-headlen*Math.cos(angle-Math.PI/7),toy-headlen*Math.sin(angle-Math.PI/7));
+                //draws the paths created above
+                ctx.strokeStyle = "#cc0000";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.fillStyle = "#cc0000";
+                ctx.fill();
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation ='destination-over';
