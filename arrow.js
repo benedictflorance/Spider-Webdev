@@ -19,10 +19,10 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e) {
-    if(e.keyCode == 87) {
+    if(e.keyCode == 87||e.keyCode==38) {
         wPressed = true;
     }
-    else if(e.keyCode == 83) {
+    else if(e.keyCode == 83||e.keyCode==40) {
         sPressed = true;
     }
     else if(e.keyCode==32){
@@ -31,10 +31,10 @@ function keyDownHandler(e) {
 }
 
 function keyUpHandler(e) {
-    if(e.keyCode == 87) {
+    if(e.keyCode == 87||e.keyCode==38) {
         wPressed = false;
     }
-    else if(e.keyCode == 83) {
+    else if(e.keyCode == 83||e.keyCode==40) {
         sPressed = false;
     }
 }
@@ -92,20 +92,24 @@ function collisionDetection()
         {
             score+=10;
             document.getElementById("status").textContent="That was a 10! :)";
+            document.getElementById("status").style.background="green";
         }
         else if(toy<bullY-4||toy>bullY+4)
         {
             score+=30
             document.getElementById("status").textContent="That was a 30! ;)";
+            document.getElementById("status").style.background="blue";
         }
         else
         {
             score+=50;
             document.getElementById("status").textContent="That was a 50! :O";
+            document.getElementById("status").style.background="red";
         }
     }
     else
-        {document.getElementById("status").textContent="Try Hard";}
+        {document.getElementById("status").textContent="Try Hard";
+        document.getElementById("status").style.background="#eee";}
     flag=0;
     space=false;
     setTimeout(function(){if(lives){
@@ -115,7 +119,7 @@ function collisionDetection()
                 fromy=toy=bowY+62;
                 drawArrow();
                 flag=1;
-            }},250);
+            }},150);
     }
 }
 function draw() {
