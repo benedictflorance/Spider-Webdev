@@ -14,7 +14,7 @@ var sPressed = false;
 var space=false;
 var lives=10;
 var score=0;
-var flag=1;
+var flag=1,animate,toggle=1;
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 window.addEventListener("load", function(){alert("Welcom to Bow and Arrow Game! \n Points: \n Yellow - 50 \n Red - 30 \n Blue - 10")}, false);
@@ -49,7 +49,7 @@ function drawArrow(){
                 ctx.beginPath();
                 ctx.moveTo(fromx, fromy);
                 ctx.lineTo(tox, toy);
-                ctx.strokeStyle = "#cc0000";
+                ctx.strokeStyle = "rgb(185,115,255)";
                 ctx.lineWidth = 3;
                 ctx.stroke();
                 //arrowhead
@@ -59,10 +59,10 @@ function drawArrow(){
                 ctx.lineTo(tox, toy);
                 ctx.lineTo(tox-headlen*Math.cos(angle-Math.PI/7),toy-headlen*Math.sin(angle-Math.PI/7));
                 //draws the paths created above
-                ctx.strokeStyle = "#cc0000";
+                ctx.strokeStyle = "rgb(185,115,255)";
                 ctx.lineWidth = 3;
                 ctx.stroke();
-                ctx.fillStyle = "#cc0000";
+                ctx.fillStyle = "rgb(185,115,255)";
                 ctx.fill();
 }
 function drawBullsEye()
@@ -124,6 +124,19 @@ setTimeout(function(){if(lives){
             }},50);
     }
 }
+function pause(e){
+        e.preventDefault(); 
+        if(toggle){
+            toggle=0;
+            cancelAnimationFrame(animate);
+            document.getElementById("pause").textContent="Resume";
+        } 
+        else{
+            toggle=1; 
+            document.getElementById("pause").textContent="Pause";
+            animate=requestAnimationFrame(draw);
+        }
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation ='destination-over';
@@ -167,6 +180,8 @@ function draw() {
         document.location.reload();
         },1000);
     }
-requestAnimationFrame(draw);
-    }
-requestAnimationFrame(draw);
+    animate=requestAnimationFrame(draw);
+}
+animate=requestAnimationFrame(draw);
+document.getElementById("restart").addEventListener("click",function(e){ e.preventDefault(); window.location.reload();},false);
+document.getElementById("pause").addEventListener("click",pause,false); 
