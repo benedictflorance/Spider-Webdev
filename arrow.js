@@ -1,6 +1,8 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var image = document.getElementById('bow');
+var sound=document.getElementById('arrow');
+var impact=document.getElementById('impact');
 var bowX = 50;
 var bowY = (canvas.height-123)/2;
 var fromx=45, tox=120;
@@ -28,6 +30,7 @@ function keyDownHandler(e) {
     }
     else if(e.keyCode==32){
         space = true;
+        sound.play();
     }
 }
 
@@ -89,6 +92,7 @@ function collisionDetection()
         if(tox>bullX-40&&flag)
     {
         if(toy>=bullY-40&&toy<=bullY+40){
+        impact.play();
         if(toy<bullY-20||toy>bullY+20)
         {
             score+=10;
