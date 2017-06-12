@@ -17,7 +17,6 @@ var score=0;
 var flag=1;
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
-window.addEventListener("load", function(){alert("Welcom to Bow and Arrow Game! \n Points: \n Yellow - 50 \n Red - 30 \n Blue - 10")}, false);
 
 function keyDownHandler(e) {
     if(e.keyCode == 87||e.keyCode==38) {
@@ -70,51 +69,50 @@ function drawBullsEye()
  ctx.beginPath();
  ctx.moveTo(bullX,bullY);
  ctx.arc(bullX,bullY,8,0,2*Math.PI,true);
- ctx.fillStyle="yellow";
- ctx.fill();
- ctx.beginPath();
- ctx.moveTo(bullX,bullY);
- ctx.arc(bullX,bullY,20,0,2*Math.PI,true);
  ctx.fillStyle="red";
  ctx.fill();
  ctx.beginPath();
  ctx.moveTo(bullX,bullY);
- ctx.arc(bullX, bullY, 40, 0, 2*Math.PI, true);
+ ctx.arc(bullX,bullY,20,0,2*Math.PI,true);
  ctx.fillStyle="blue";
+ ctx.fill();
+ ctx.beginPath();
+ ctx.moveTo(bullX,bullY);
+ ctx.arc(bullX, bullY, 40, 0, 2*Math.PI, true);
+ ctx.fillStyle="green";
  ctx.fill();
  
 }
 function collisionDetection()
 {
-        if(tox>bullX-40&&flag)
+    if(tox>bullX-20&&flag)
     {
-        if(toy>=bullY-40&&toy<=bullY+40){
-        if(toy<bullY-20||toy>bullY+20)
+        if(toy>=bullY-20&&toy<=bullY+20){
+        if(toy<bullY-10||toy>bullY+10)
         {
             score+=10;
             document.getElementById("status").textContent="That was a 10! :)";
-            document.getElementById("status").style.background="blue";
+            document.getElementById("status").style.background="green";
         }
-        else if(toy<=bullY-8||toy>=bullY+8)
+        else if(toy<=bullY-4||toy>=bullY+4)
         {
             score+=30
             document.getElementById("status").textContent="That was a 30! ;)";
-            document.getElementById("status").style.background="red";
+            document.getElementById("status").style.background="blue";
         }
         else
         {
             score+=50;
             document.getElementById("status").textContent="That was a 50! :O";
-            document.getElementById("status").style.background="yellow";
+            document.getElementById("status").style.background="red";
         }
     }
     else
         {document.getElementById("status").textContent="Try Hard";
-        document.getElementById("status").style.background="rgb(146,192,17)";
-        return;}
+        document.getElementById("status").style.background="#eee";}
     flag=0;
-setTimeout(function(){if(lives){
-                space=false;
+    space=false;
+    setTimeout(function(){if(lives){
                 lives--;
                 fromx=45; 
                 tox=120;
