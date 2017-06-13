@@ -3,24 +3,19 @@ var ctx = canvas.getContext("2d");
 var image = document.getElementById('bow');
 var sound=document.getElementById('arrow');
 var impact=document.getElementById('impact');
-var bowX = 50;
+var fire=document.getElementById('fire');
+var multiply=document.getElementById('multiply');
+var bgm=document.getElementById('bgm');
+var bonus=document.getElementById('bonus');
+var fsound=document.getElementById('fsound');
+var bowX = 50,fromx=45,tox=120,fromy,toy,bullX=650,bullY=45,bullSpeed=2,wPressed = false,sPressed = false;
+var space=false,lives=10,score=0,flag=1,animate,toggle=1,fire1X=175,fire1Y=80,fire2X=500,fire2Y=360;
+var mulX=345,mulY=canvas.height-80,mulSpeed=-3,fflag=1,random,incr=false;
 var bowY = (canvas.height-123)/2;
-var fromx=45, tox=120;
-var fromy,toy;
-var bullX=650;
-var bullY=45;
-var bullSpeed=2;
 fromy=toy=(canvas.height+4)/2;
-var wPressed = false;
-var sPressed = false;
-var space=false;
-var lives=10;
-var score=0;
-var flag=1,animate,toggle=1;
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
-window.addEventListener("load", function(){alert("Welcom to Bow and Arrow Game! \n Points: \n Yellow - 50 \n Red - 30 \n Blue - 10")}, false);
-
+window.addEventListener("load", function(){alert("Welcome to Bow and Arrow Game! \n Points: \n Yellow - 50 \n Red - 30 \n Blue - 10 \n Arrow burns in fire \n Shoot at bonus to get extra arrows \n Shoot at 2x to fly faster")}, false);
 function keyDownHandler(e) {
     if(e.keyCode == 87||e.keyCode==38) {
         wPressed = true;
@@ -119,6 +114,7 @@ function collisionDetection()
     flag=0;
 setTimeout(function(){if(lives){
                 space=false;
+                incr=false;
                 lives--;
                 fromx=45; 
                 tox=120;
@@ -141,12 +137,46 @@ function pause(e){
             animate=requestAnimationFrame(draw);
         }
 }
+function drawBonus(){
+    ctx.drawImage(fire,fire1X,fire1Y);
+    ctx.drawImage(fire,fire2X,fire2Y);
+    if(mulY<canvas.height/4||(mulY>canvas.height/2&&mulY<0.75*canvas.height))
+    {ctx.drawImage(multiply,mulX,mulY);
+    random=1;}
+    else
+    {ctx.drawImage(bonus,mulX,mulY);
+        random=0;}
+}
+function bonusCollision(){
+    if((toy>=80&&toy<=150&&tox>=180)||(toy>=360&&toy<=430&&tox>=505))
+        {       if(fflag)
+                    {lives--; fflag=0;}
+                fsound.play();
+                setTimeout(function(){
+                space=false;
+                fromx=45; 
+                tox=120;
+                fromy=toy=bowY+62;
+                drawArrow()
+                fflag=1;},100);
+        }
+    if(toy>=mulY&&toy<=mulY+70&&tox==mulX+15)
+    {
+        if(random)
+            incr=true;
+        else
+            lives+=3;
+    }
+
+}
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation ='destination-over';
     drawArrow();
     drawBow();
     drawBullsEye();
+    drawBonus();
+    bonusCollision();
     collisionDetection();
     document.getElementById("lives").textContent=lives+" arrow(s) in your quiver!";
 	document.getElementById("score").textContent="Score: "+score;
@@ -161,13 +191,19 @@ function draw() {
     	toy+=4;
     }
     else if(space)
-    {
+    {   if(!incr)
+        {
     	fromx+=8;
-    	tox+=8;
+    	tox+=8;}
+        else
+        {fromx+=16;
+        tox+=16;}
+
     }
     if(fromx>canvas.width+5&&lives)
     {
    	lives--;
+    incr=false;
     fromx=45; 
     tox=120
 	fromy=toy=bowY+62;
@@ -177,6 +213,9 @@ function draw() {
     if(bullY<45||bullY>canvas.height-42)
     {bullSpeed=-1*bullSpeed;}
     bullY+=bullSpeed;
+        if(mulY<5||mulY>canvas.height-72)
+    {mulSpeed=-1*mulSpeed;}
+    mulY+=mulSpeed;
     if(!lives)
     {
         setTimeout(function(){
@@ -189,3 +228,4 @@ function draw() {
 animate=requestAnimationFrame(draw);
 document.getElementById("restart").addEventListener("click",function(e){ e.preventDefault(); window.location.reload();},false);
 document.getElementById("pause").addEventListener("click",pause,false); 
+bgm.play();
